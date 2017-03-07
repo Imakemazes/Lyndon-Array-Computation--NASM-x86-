@@ -96,6 +96,7 @@ global asm_main
 ; counters and flags as necessary.
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
+asm_main:							; Main routine
 	enter 	0, 0						; Standard setup routine
 	pusha							; Save all registers, push onto stack
 
