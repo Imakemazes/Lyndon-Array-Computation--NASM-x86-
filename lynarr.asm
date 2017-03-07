@@ -1,6 +1,38 @@
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Max Lyndon Array Computation - Modified and Documented
+; by Nolan Slade, 001401079, COMP SCI 3IO3
+; March 7, 2017
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Program computes max lyndon array by iterating through
+; a given string list. A lyndon array is described as 
+; follows, by Frantisek Franek et al. at the following
+; web URL: http://bit.ly/2mfTMwG
+;
+; "The Lyndon array L = Ls[1..n] of a given non-empty
+; string s = s[1..n] gives at each position i the length
+; of the longest Lydon word starting at i."
+;
+; Note that a lyndon word is a string that is strictly
+; smaller in lexicographic order than all of its 
+; permutations. Byte array utilized to compute max lyndons
+; at certain positions in the string.
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Global Declarations - declare program conditions 
+; pertaining to acceptable arguments through the command
+; line. This program was developed to accept 2 args, max
+; string length 20.
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+
 MAXARGS equ 2	
 MAXLEN	equ	20
 
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Data Section - Defines necessary program data including
+; error strings. Errors will be generated for specific
+; conditions which are described in the text section 
+; of this program (incorrect arg count, arg length, chars).
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 section .data
@@ -8,6 +40,13 @@ errArgMessage 	db 	"Error: incorrect argument count.",0,10
 errLenMessage 	db 	"Error: incorrect input length.",0,10		
 errCharMessage 	db 	"Error: invalid character encountered.",0,10
 
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; BSS Section - Declares Reservation of Data Space for 
+; Various program components including flags, counters,
+; and offsets
+;
+; Size of memory reservations depend on the data type as
+; well as expected number of items stored of that type.
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 section .bss
@@ -21,6 +60,29 @@ displayCounter 	resd 	1
 flag 		resd 	1 	
 intgOffset	resd 	1 	
 
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Text Section - Main program logic and code. Contains
+; all necessary routines and subroutines for lyndon
+; array computation. These include computing the main, the
+; lyndon array computation, and displaying the results.
+;
+; Throughout computation, certain conditions are asserted
+; and errors will be generated if these conditions are 
+; violated. These include incorrect argument count (should
+; be 2), incorrect string length (1-20), or invalid 
+; characters (should be english alphabet a-z, A-Z).
+; 
+; These assertions are implemented due to the nature of
+; the lyndon array problem. A lyndon array is only
+; computable for a given ASCII string, which must
+; be non-empty. The maximum length of 20 is only 
+; an arbitrary value and can be reset if desired to a
+; higher or lower value. Plus, only one string
+; argument can be accepted by the program. The other
+; argument is the program name in the command line.
+;
+; Defines global main method (program entry point) and
+; supporting methods.
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 section .text
