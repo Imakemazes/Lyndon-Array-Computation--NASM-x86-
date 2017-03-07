@@ -89,6 +89,12 @@ section .text
 global asm_main
 
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Main method: reads in arguments and checks for 
+; all possible termination conditions before proceeding
+; to compute the max lyndon array of the string argument.
+; Fills necessary byte and int arrays and sets global 
+; counters and flags as necessary.
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 asm_main:				
 	enter 	0, 0		
@@ -183,6 +189,19 @@ asm_main:
 		ret					
 
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Max Lyndon computation: Computes all integer lyndons and
+; loads them into the appropriate array in memory.
+;
+; Key register and variable descriptions:
+; Z = byte array X
+; n = [N]
+; k = [lyndonCounter]
+; p = ecx
+; iterator i = edx
+; edi used for i-p
+; eax = Z[i-p]
+; ebx = Z[i]
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 maxLyn:
 	enter 	0, 0 		
@@ -249,6 +268,15 @@ maxLyn:
 		popa			
 		jmp 	endOfLyndon	
 
+; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
+; Display method: Responsible for displaying the lyndon 
+; array of integers after computation of max lyndons
+; has been completed. Also can be used in combination 
+; with the flag to display the byte array.
+;
+; Key registers description:
+; esi = location of array referenced (x or y)
+; edi = stopping point (number of elements - 1 = stringlength - 1)
 ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;
 
 display:
